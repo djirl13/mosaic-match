@@ -245,6 +245,23 @@ function App() {
             width: '100%',
             maxWidth: window.innerWidth < 640 ? '300px' : '450px'
           }}>
+            {window.innerWidth < 640 && (
+              <div style={{
+                width: '100%',
+                padding: '8px 12px',
+                backgroundColor: '#E8F5E9',
+                borderRadius: '8px',
+                fontSize: '14px',
+                color: '#2E7D32',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
+              }}>
+                <span style={{ fontSize: '16px' }}>💡</span>
+                <span>Long press and hold tiles to drag and drop</span>
+              </div>
+            )}
             {/* Grid */}
             <div style={{ 
               display: 'grid',
