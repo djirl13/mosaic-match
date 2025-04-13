@@ -60,6 +60,7 @@ function App() {
   const [isSolved, setIsSolved] = useState(false)
   const [showRules, setShowRules] = useState(false)
   const [showResetConfirm, setShowResetConfirm] = useState(false)
+  const [isFirstVisit, setIsFirstVisit] = useState(false)
 
   // Function to normalize rotation to 0-359 degrees
   const normalizeRotation = (rotation: number): number => {
@@ -96,6 +97,16 @@ function App() {
       }
     }
   }, [tiles, moveCount])  // Also watch moveCount to ensure we don't miss any checks
+
+  // Check if it's the first visit
+  useEffect(() => {
+    const hasVisited = localStorage.getItem('hasVisitedMosaicMatch')
+    if (!hasVisited) {
+      setShowRules(true)
+      setIsFirstVisit(true)
+      localStorage.setItem('hasVisitedMosaicMatch', 'true')
+    }
+  }, [])
 
   const moveTile = (dragIndex: number, hoverIndex: number) => {
     const newTiles = [...tiles]
@@ -350,7 +361,10 @@ function App() {
               zIndex: 1000,
               padding: '16px'
             }}
-            onClick={() => setShowRules(false)}
+            onClick={() => {
+              setShowRules(false)
+              setIsFirstVisit(false)
+            }}
           >
             <div 
               style={{
@@ -367,7 +381,10 @@ function App() {
               onClick={(e) => e.stopPropagation()}
             >
               <button
-                onClick={() => setShowRules(false)}
+                onClick={() => {
+                  setShowRules(false)
+                  setIsFirstVisit(false)
+                }}
                 style={{
                   position: 'absolute',
                   top: '12px',
@@ -397,7 +414,7 @@ function App() {
                 marginBottom: '20px',
                 color: '#2d3748'
               }}>
-                How to Play
+                {isFirstVisit ? 'Welcome New Player!' : 'How to Play'}
               </h2>
               <div style={{
                 color: '#4a5568',
@@ -514,6 +531,40 @@ function App() {
                   <li style={{marginBottom: '8px'}}>Pay attention to both position and rotation of each tile</li>
                   <li style={{marginBottom: '8px'}}>The puzzle is solved when all adjacent edges match in color</li>
                 </ul>
+
+                {isFirstVisit && (
+                  <div style={{
+                    marginTop: '24px',
+                    paddingTop: '24px',
+                    borderTop: '1px solid #e2e8f0',
+                    display: 'flex',
+                    justifyContent: 'center'
+                  }}>
+                    <button
+                      onClick={() => {
+                        setShowRules(false)
+                        setIsFirstVisit(false)
+                        resetGame() // Reset the grid when starting the game
+                      }}
+                      style={{
+                        padding: '12px 32px',
+                        fontSize: '16px',
+                        backgroundColor: '#4c6ef5',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s',
+                        fontWeight: 'bold',
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                      }}
+                      onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                      onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                    >
+                      Start Game
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
