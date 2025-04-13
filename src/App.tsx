@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import Tile from './components/Tile'
+import tileMatchingImage from './assets/tile-matching.svg'
 
 interface TileType {
   id: number
@@ -403,36 +404,116 @@ function App() {
                 fontSize: '16px',
                 lineHeight: '1.6'
               }}>
+                <h3 style={{
+                  fontSize: '18px',
+                  fontWeight: 'bold',
+                  marginBottom: '12px',
+                  color: '#2d3748'
+                }}>
+                  Game Objective
+                </h3>
+                <p style={{marginBottom: '16px'}}>
+                  Arrange the colored tiles so that all adjacent edges match in color, creating a harmonious mosaic pattern.
+                </p>
+
+                <h3 style={{
+                  fontSize: '18px',
+                  fontWeight: 'bold',
+                  marginBottom: '12px',
+                  color: '#2d3748'
+                }}>
+                  Game Controls
+                </h3>
+                <ul style={{
+                  paddingLeft: '20px',
+                  marginBottom: '16px'
+                }}>
+                  <li style={{marginBottom: '8px'}}>
+                    <strong>Moving Tiles:</strong> Drag and drop tiles to swap their positions
+                    {window.innerWidth < 640 && " (long press and hold on mobile)"}
+                  </li>
+                  <li style={{marginBottom: '8px'}}>
+                    <strong>Rotating Tiles:</strong> Click/tap a tile to rotate it 90° clockwise
+                  </li>
+                  <li style={{marginBottom: '8px'}}>
+                    <strong>Undo Move:</strong> Use the undo button to reverse your last move
+                  </li>
+                </ul>
+
+                <h3 style={{
+                  fontSize: '18px',
+                  fontWeight: 'bold',
+                  marginBottom: '12px',
+                  color: '#2d3748'
+                }}>
+                  How to Solve
+                </h3>
                 <ol style={{
                   paddingLeft: '20px',
-                  marginBottom: '24px'
+                  marginBottom: '16px'
                 }}>
-                  <li>Each square in the grid holds one tile.</li>
-                  <li>You can rotate or move tiles to try and solve the puzzle.</li>
-                  <li>Tiles start in random positions.</li>
-                  <li>Two tiles match if the colors on their touching sides are the same.</li>
+                  <li style={{marginBottom: '8px'}}>Start by identifying tiles with matching colors on their edges</li>
+                  <li style={{marginBottom: '8px'}}>Position tiles next to each other so their colored edges match</li>
+                  <li style={{marginBottom: '8px'}}>Rotate tiles as needed to align the colors correctly</li>
+                  <li style={{marginBottom: '8px'}}>Work systematically from one corner to complete the pattern</li>
+                  <li style={{marginBottom: '8px'}}>Use the undo button if you make a mistake</li>
                 </ol>
-                
-                <p style={{
-                  marginBottom: '24px',
-                  padding: '12px',
+
+                <h3 style={{
+                  fontSize: '18px',
+                  fontWeight: 'bold',
+                  marginBottom: '12px',
+                  color: '#2d3748'
+                }}>
+                  How Matching Works
+                </h3>
+                <div style={{
+                  marginBottom: '16px',
+                  padding: '16px',
                   backgroundColor: '#f7fafc',
                   borderRadius: '8px',
-                  borderLeft: '4px solid #4c6ef5'
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '12px'
                 }}>
-                  <strong>Example:</strong> If the right side of one tile is blue, the left side of the tile next to it must also be blue.
-                </p>
-                
-                <div style={{
-                  marginTop: '24px',
-                  borderTop: '1px solid #e2e8f0',
-                  paddingTop: '16px'
-                }}>
-                  <strong style={{ color: '#2d3748' }}>To win:</strong>
-                  <p style={{ marginTop: '8px' }}>
-                    The puzzle is solved when all touching sides between tiles match in color.
+                  <img 
+                    src={tileMatchingImage} 
+                    alt="Tile matching example showing two tiles with matching colored edges"
+                    style={{
+                      width: '100%',
+                      maxWidth: '300px',
+                      height: 'auto',
+                      marginBottom: '8px'
+                    }}
+                  />
+                  <p style={{
+                    textAlign: 'center',
+                    fontSize: '14px',
+                    color: '#4a5568'
+                  }}>
+                    Tiles match when their touching edges have the same color.
+                    In this example, the red edge of the right tile matches with the red edge of the left tile.
                   </p>
                 </div>
+
+                <h3 style={{
+                  fontSize: '18px',
+                  fontWeight: 'bold',
+                  marginBottom: '12px',
+                  color: '#2d3748'
+                }}>
+                  Tips
+                </h3>
+                <ul style={{
+                  paddingLeft: '20px',
+                  marginBottom: '16px'
+                }}>
+                  <li style={{marginBottom: '8px'}}>Look for unique color combinations to identify key tile positions</li>
+                  <li style={{marginBottom: '8px'}}>Try to solve the corners and edges first</li>
+                  <li style={{marginBottom: '8px'}}>Pay attention to both position and rotation of each tile</li>
+                  <li style={{marginBottom: '8px'}}>The puzzle is solved when all adjacent edges match in color</li>
+                </ul>
               </div>
             </div>
           </div>
