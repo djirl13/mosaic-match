@@ -154,44 +154,42 @@ function App() {
 
   return (
     <DndProvider backend={HTML5Backend}>
-      <div>
+      <div style={{
+        minHeight: '100vh',
+        backgroundColor: '#f8fafc',
+        display: 'flex',
+        flexDirection: 'column'
+      }}>
         {/* Navigation Banner */}
         <nav style={{
-          padding: '12px 24px',
+          padding: '12px 16px',
+          backgroundColor: 'white',
+          borderBottom: '1px solid #e2e8f0',
           display: 'flex',
-          alignItems: 'center',
           justifyContent: 'space-between',
-          borderBottom: '1px solid #e5e7eb',
-          backgroundColor: 'white'
+          alignItems: 'center',
+          position: 'sticky',
+          top: 0,
+          zIndex: 10
         }}>
-          {/* Left section */}
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <h1 style={{
-              fontSize: '24px',
-              fontWeight: 'bold',
-              color: '#2d3748',
-              margin: 0
-            }}>
-              Mosaic Match
-            </h1>
-          </div>
-
-          {/* Center section - removed */}
-          <div style={{ flex: 1 }}></div>
-
-          {/* Right section */}
+          <h1 style={{
+            fontSize: window.innerWidth < 640 ? '20px' : '24px',
+            fontWeight: 'bold',
+            color: '#1a202c'
+          }}>
+            Mosaic Match
+          </h1>
           <div style={{
             display: 'flex',
-            gap: '16px',
-            alignItems: 'center'
+            gap: '8px'
           }}>
             <button style={{
               background: 'none',
               border: 'none',
-              fontSize: '16px',
+              fontSize: window.innerWidth < 640 ? '14px' : '16px',
               color: '#718096',
               cursor: 'pointer',
-              padding: '8px 16px'
+              padding: '8px 12px'
             }}
             onClick={() => setShowRules(true)}>
               Rules
@@ -201,8 +199,8 @@ function App() {
               color: 'white',
               border: 'none',
               borderRadius: '8px',
-              padding: '8px 24px',
-              fontSize: '16px',
+              padding: window.innerWidth < 640 ? '6px 12px' : '8px 24px',
+              fontSize: window.innerWidth < 640 ? '14px' : '16px',
               cursor: 'pointer',
               transition: 'background-color 0.2s'
             }}
@@ -213,35 +211,48 @@ function App() {
         </nav>
 
         {/* Main Content */}
-        <div style={{ padding: '20px' }}>
+        <div style={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          padding: window.innerWidth < 640 ? '12px' : '20px',
+          gap: '16px'
+        }}>
           {isSolved && (
             <div style={{
               padding: '8px 16px',
-              fontSize: '18px',
+              fontSize: window.innerWidth < 640 ? '16px' : '18px',
               fontWeight: 'bold',
               backgroundColor: '#FFD700',
               color: '#000',
               borderRadius: '4px',
               animation: 'fadeIn 0.5s',
-              marginBottom: '16px'
+              marginBottom: '16px',
+              width: '100%',
+              maxWidth: window.innerWidth < 640 ? '300px' : '450px',
+              textAlign: 'center'
             }}>
               🎉 Puzzle Solved! 🎉
             </div>
           )}
+          
           <div style={{
             display: 'flex',
-            gap: '24px',
-            alignItems: 'flex-start'
+            flexDirection: 'column',
+            gap: '16px',
+            alignItems: 'center',
+            width: '100%',
+            maxWidth: window.innerWidth < 640 ? '300px' : '450px'
           }}>
             {/* Grid */}
             <div style={{ 
               display: 'grid',
               gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-              gap: '16px',
+              gap: window.innerWidth < 640 ? '8px' : '12px',
               aspectRatio: '1',
               width: '100%',
-              maxWidth: '450px',
-              padding: '24px',
+              padding: window.innerWidth < 640 ? '12px' : '24px',
               backgroundColor: 'white',
               borderRadius: '12px',
               boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
@@ -262,26 +273,28 @@ function App() {
             {/* Controls */}
             <div style={{
               display: 'flex',
-              flexDirection: 'column',
+              flexDirection: 'row',
               gap: '12px',
               padding: '12px',
               backgroundColor: 'white',
               borderRadius: '8px',
               boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-              minWidth: '150px'
+              width: '100%',
+              justifyContent: 'space-between',
+              alignItems: 'center'
             }}>
               <div style={{ 
-                fontSize: '18px', 
+                fontSize: window.innerWidth < 640 ? '16px' : '18px',
                 fontWeight: 'bold',
-                color: '#666',
+                color: '#666'
               }}>
-                Moves Made: {moveCount}
+                Moves: {moveCount}
               </div>
               {canUndo && !isSolved && (
                 <button
                   onClick={undoMove}
                   style={{
-                    padding: '4px 8px',
+                    padding: '4px 12px',
                     fontSize: '14px',
                     backgroundColor: '#4CAF50',
                     color: 'white',
@@ -293,7 +306,7 @@ function App() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    width: '100%'
+                    minWidth: '80px'
                   }}
                 >
                   ↩ Undo
@@ -302,206 +315,210 @@ function App() {
             </div>
           </div>
         </div>
-      </div>
-      
-      {/* Rules Modal */}
-      {showRules && (
-        <div 
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 1000
-          }}
-          onClick={() => setShowRules(false)}
-        >
+
+        {/* Rules Modal */}
+        {showRules && (
           <div 
             style={{
-              backgroundColor: 'white',
-              padding: '24px',
-              borderRadius: '12px',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-              position: 'relative',
-              width: '90%',
-              maxWidth: '500px'
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1000,
+              padding: '16px'
             }}
-            onClick={(e) => e.stopPropagation()}
+            onClick={() => setShowRules(false)}
           >
-            <button
-              onClick={() => setShowRules(false)}
+            <div 
               style={{
-                position: 'absolute',
-                top: '12px',
-                right: '12px',
-                background: 'none',
-                border: 'none',
-                fontSize: '24px',
-                cursor: 'pointer',
-                color: '#666',
-                padding: '4px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                width: '32px',
-                height: '32px',
-                borderRadius: '50%',
-                transition: 'background-color 0.2s'
+                backgroundColor: 'white',
+                padding: window.innerWidth < 640 ? '16px' : '24px',
+                borderRadius: '12px',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                position: 'relative',
+                width: '90%',
+                maxWidth: '500px',
+                maxHeight: '90vh',
+                overflowY: 'auto'
               }}
-              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f0f0f0'}
-              onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+              onClick={(e) => e.stopPropagation()}
             >
-              ×
-            </button>
-            <h2 style={{
-              fontSize: '24px',
-              fontWeight: 'bold',
-              marginBottom: '20px',
-              color: '#2d3748'
-            }}>
-              How to Play
-            </h2>
-            <div style={{
-              color: '#4a5568',
-              fontSize: '16px',
-              lineHeight: '1.6'
-            }}>
-              <ol style={{
-                paddingLeft: '20px',
-                marginBottom: '24px'
+              <button
+                onClick={() => setShowRules(false)}
+                style={{
+                  position: 'absolute',
+                  top: '12px',
+                  right: '12px',
+                  background: 'none',
+                  border: 'none',
+                  fontSize: '24px',
+                  cursor: 'pointer',
+                  color: '#666',
+                  padding: '4px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  transition: 'background-color 0.2s'
+                }}
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f0f0f0'}
+                onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+              >
+                ×
+              </button>
+              <h2 style={{
+                fontSize: '24px',
+                fontWeight: 'bold',
+                marginBottom: '20px',
+                color: '#2d3748'
               }}>
-                <li>Each square in the grid holds one tile.</li>
-                <li>You can rotate or move tiles to try and solve the puzzle.</li>
-                <li>Tiles start in random positions.</li>
-                <li>Two tiles match if the colors on their touching sides are the same.</li>
-              </ol>
-              
-              <p style={{
-                marginBottom: '24px',
-                padding: '12px',
-                backgroundColor: '#f7fafc',
-                borderRadius: '8px',
-                borderLeft: '4px solid #4c6ef5'
-              }}>
-                <strong>Example:</strong> If the right side of one tile is blue, the left side of the tile next to it must also be blue.
-              </p>
-              
+                How to Play
+              </h2>
               <div style={{
-                marginTop: '24px',
-                borderTop: '1px solid #e2e8f0',
-                paddingTop: '16px'
+                color: '#4a5568',
+                fontSize: '16px',
+                lineHeight: '1.6'
               }}>
-                <strong style={{ color: '#2d3748' }}>To win:</strong>
-                <p style={{ marginTop: '8px' }}>
-                  The puzzle is solved when all touching sides between tiles match in color.
+                <ol style={{
+                  paddingLeft: '20px',
+                  marginBottom: '24px'
+                }}>
+                  <li>Each square in the grid holds one tile.</li>
+                  <li>You can rotate or move tiles to try and solve the puzzle.</li>
+                  <li>Tiles start in random positions.</li>
+                  <li>Two tiles match if the colors on their touching sides are the same.</li>
+                </ol>
+                
+                <p style={{
+                  marginBottom: '24px',
+                  padding: '12px',
+                  backgroundColor: '#f7fafc',
+                  borderRadius: '8px',
+                  borderLeft: '4px solid #4c6ef5'
+                }}>
+                  <strong>Example:</strong> If the right side of one tile is blue, the left side of the tile next to it must also be blue.
                 </p>
+                
+                <div style={{
+                  marginTop: '24px',
+                  borderTop: '1px solid #e2e8f0',
+                  paddingTop: '16px'
+                }}>
+                  <strong style={{ color: '#2d3748' }}>To win:</strong>
+                  <p style={{ marginTop: '8px' }}>
+                    The puzzle is solved when all touching sides between tiles match in color.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* Reset Confirmation Modal */}
-      {showResetConfirm && (
-        <div 
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 1000
-          }}
-          onClick={() => setShowResetConfirm(false)}
-        >
+        {/* Reset Confirmation Modal */}
+        {showResetConfirm && (
           <div 
             style={{
-              backgroundColor: 'white',
-              padding: '24px',
-              borderRadius: '12px',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-              position: 'relative',
-              width: '90%',
-              maxWidth: '400px'
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h2 style={{
-              fontSize: '20px',
-              fontWeight: 'bold',
-              marginBottom: '16px',
-              color: '#2d3748'
-            }}>
-              Start New Game?
-            </h2>
-            <p style={{
-              color: '#4a5568',
-              fontSize: '16px',
-              lineHeight: '1.5',
-              marginBottom: '20px'
-            }}>
-              You've made {moveCount} moves. Are you sure you want to start a new game? Your current progress will be lost.
-            </p>
-            <div style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
               display: 'flex',
-              gap: '12px',
-              justifyContent: 'flex-end'
-            }}>
-              <button
-                onClick={() => setShowResetConfirm(false)}
-                style={{
-                  padding: '8px 16px',
-                  fontSize: '14px',
-                  backgroundColor: '#e2e8f0',
-                  color: '#4a5568',
-                  border: 'none',
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                  transition: 'background-color 0.2s'
-                }}
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => {
-                  setShowResetConfirm(false)
-                  resetGame()
-                }}
-                style={{
-                  padding: '8px 16px',
-                  fontSize: '14px',
-                  backgroundColor: '#4c6ef5',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '6px',
-                  cursor: 'pointer',
-                  transition: 'background-color 0.2s'
-                }}
-              >
-                Start New Game
-              </button>
+              justifyContent: 'center',
+              alignItems: 'center',
+              zIndex: 1000,
+              padding: '16px'
+            }}
+            onClick={() => setShowResetConfirm(false)}
+          >
+            <div 
+              style={{
+                backgroundColor: 'white',
+                padding: window.innerWidth < 640 ? '16px' : '24px',
+                borderRadius: '12px',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                position: 'relative',
+                width: '90%',
+                maxWidth: '400px'
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 style={{
+                fontSize: '20px',
+                fontWeight: 'bold',
+                marginBottom: '16px',
+                color: '#2d3748'
+              }}>
+                Start New Game?
+              </h2>
+              <p style={{
+                color: '#4a5568',
+                fontSize: '16px',
+                lineHeight: '1.5',
+                marginBottom: '20px'
+              }}>
+                You've made {moveCount} moves. Are you sure you want to start a new game? Your current progress will be lost.
+              </p>
+              <div style={{
+                display: 'flex',
+                gap: '12px',
+                justifyContent: 'flex-end'
+              }}>
+                <button
+                  onClick={() => setShowResetConfirm(false)}
+                  style={{
+                    padding: '8px 16px',
+                    fontSize: '14px',
+                    backgroundColor: '#e2e8f0',
+                    color: '#4a5568',
+                    border: 'none',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.2s'
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    setShowResetConfirm(false)
+                    resetGame()
+                  }}
+                  style={{
+                    padding: '8px 16px',
+                    fontSize: '14px',
+                    backgroundColor: '#4c6ef5',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '6px',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.2s'
+                  }}
+                >
+                  Start New Game
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      <style>
-        {`
-          @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-        `}
-      </style>
+        <style>
+          {`
+            @keyframes fadeIn {
+              from { opacity: 0; }
+              to { opacity: 1; }
+            }
+          `}
+        </style>
+      </div>
     </DndProvider>
   )
 }

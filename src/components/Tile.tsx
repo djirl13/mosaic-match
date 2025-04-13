@@ -134,8 +134,9 @@ const Tile: React.FC<TileProps> = ({ id, index, color, rotation, moveTile, onRot
         display: 'grid',
         gridTemplateColumns: 'repeat(3, 1fr)',
         gridTemplateRows: 'repeat(3, 1fr)',
-        gap: '2px',
-        padding: '2px'
+        gap: window.innerWidth < 640 ? '1px' : '2px',
+        padding: window.innerWidth < 640 ? '1px' : '2px',
+        touchAction: 'none'
       }}
       onClick={onRotate}
     >
@@ -157,7 +158,8 @@ const Tile: React.FC<TileProps> = ({ id, index, color, rotation, moveTile, onRot
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              userSelect: 'none'
+              userSelect: 'none',
+              touchAction: 'none'
             }}
           />
         )
